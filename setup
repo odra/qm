@@ -96,7 +96,8 @@ install() {
     replaceIDs "${ROOTFS}/etc/subuid" containers ${QM_CONTAINER_IDS}
     replaceIDs "${ROOTFS}/etc/subgid" containers ${QM_CONTAINER_IDS}
     bluechiSetup "${ROOTFS}"
-    unshare --mount-proc -R "${ROOTFS}" -m systemctl enable bluechi-agent.service
+    # unshare --mount-proc -R "${ROOTFS}" -m systemctl enable bluechi-agent.service
+    systemctl enable bluechi-agent.service
     storage "${ROOTFS}"
     restorecon -R "${ROOTFS}"
 }
