@@ -145,6 +145,7 @@ echo
 
 case "$1" in
     bluechi-agent)
+        echo "[INFO] bluechi setup"
 	rm -f "${ROOTFS}${AGENTCONF}"
 	bluechiSetup "${ROOTFS}"
 	;;
@@ -152,11 +153,13 @@ case "$1" in
 	# if systemctl is-active --quiet "qm.service" ; then
 	#	systemctl stop qm.service
 	# fi
+        echo "[INFO] rootfs and group IDs setup"
 	install "${ROOTFS}"
 	replaceIDs /etc/subuid qmcontainers ${QM_CONTAINER_IDS}
 	replaceIDs /etc/subgid qmcontainers ${QM_CONTAINER_IDS}
 	replaceIDs /etc/subuid containers   ${CONTAINER_IDS}
 	replaceIDs /etc/subgid containers   ${CONTAINER_IDS}
+        echo "[INFO] enable qm service"
 	# systemctl daemon-reload
 	# systemctl start qm.service
         systemctl enable qm.service
