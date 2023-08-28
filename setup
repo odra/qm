@@ -149,15 +149,16 @@ case "$1" in
 	bluechiSetup "${ROOTFS}"
 	;;
     *)
-	if systemctl is-active --quiet "qm.service" ; then
-		systemctl stop qm.service
-	fi
+	# if systemctl is-active --quiet "qm.service" ; then
+	#	systemctl stop qm.service
+	# fi
 	install "${ROOTFS}"
 	replaceIDs /etc/subuid qmcontainers ${QM_CONTAINER_IDS}
 	replaceIDs /etc/subgid qmcontainers ${QM_CONTAINER_IDS}
 	replaceIDs /etc/subuid containers   ${CONTAINER_IDS}
 	replaceIDs /etc/subgid containers   ${CONTAINER_IDS}
 	# systemctl daemon-reload
-	systemctl start qm.service
+	# systemctl start qm.service
+        systemctl enable qm.service
 	;;
 esac
