@@ -48,12 +48,14 @@ replaceIDs() {
 }
 
 bluechiSetup() {
+echo "[INFO] bluechiSetup begin"
     ROOTFS=$1
     if test ! -f "${ROOTFS}${AGENTCONF}"; then
 	if test -f "${AGENTCONF}"; then
 	    sed -e 's,^NodeName=,NodeName=qm.,g' "${AGENTCONF}" >  "${ROOTFS}${AGENTCONF}"
 	fi
     fi
+    echo "[INFO] Using hosrtname: $(hostname)"
     hostname=$(hostname)
     if test -f "${ROOTFS}${AGENTCONF}"; then
 	sed -e "s,^NodeName=qm.$,NodeName=qm.${hostname},g" \
