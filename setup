@@ -157,7 +157,7 @@ case "$1" in
 	replaceIDs /etc/subgid qmcontainers ${QM_CONTAINER_IDS}
 	replaceIDs /etc/subuid containers   ${CONTAINER_IDS}
 	replaceIDs /etc/subgid containers   ${CONTAINER_IDS}
-	systemctl daemon-reload
+	# systemctl daemon-reload
 	systemctl start qm.service
 	;;
 esac
