@@ -164,6 +164,6 @@ case "$1" in
         echo "[INFO] enable qm service"
 	# systemctl daemon-reload
 	# systemctl start qm.service
-        systemctl enable qm.service
+        # systemctl enable qm.service
 	;;
 esac
