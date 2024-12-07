@@ -9,6 +9,7 @@
 #
 
 # Globals
+DNF_HOST_CONFIG="N"
 SYSTEMCTL_SKIP="N"
 REMOVE_QM_ROOTFS="N"
 INSTALLDIR="/usr/share/qm"
@@ -33,6 +34,7 @@ CMDLINE_ARGUMENT_LIST=(
   "rwetcfs"
   "rwvarfs"
   "skip-systemctl"
+  "dnf-host-config"
 )
 
 root_check() {
@@ -147,7 +149,7 @@ install() {
     setupRW "${ROOTFS}" "${RWETCFS}" "${RWVARFS}"
 
     EXTRA_FLAG=""
-    if grep -qi "^ID=fedora" /etc/os-release; then
+    if [ "${DNF_HOST_CONFIG}" == "Y" ] || [ grep -qi "^ID=fedora" /etc/os-release ]; then
         EXTRA_FLAG="--use-host-config"
     fi
 
@@ -198,7 +200,7 @@ EOF
 
 # read command line arguments
 opts=$(getopt \
-  --longoptions "$(printf "help,skip-systemctl,remove-qm-rootfs,%s:," "${CMDLINE_ARGUMENT_LIST[@]}")" \
+  --longoptions "$(printf "help,skip-systemctl,remove-qm-rootfs,dnf-host-config,%s:," "${CMDLINE_ARGUMENT_LIST[@]}")" \
   --name "$(basename "$0")" \
   --options "" \
   -- "$@"
@@ -231,6 +233,10 @@ while [[ $# -gt 0 ]]; do
       SYSTEMCTL_SKIP="Y"
       shift
       ;;
+    --dnf-host-config)
+      DNF_HOST_CONFIG="Y"
+      shift
+      ;;
     --hostname)
       AGENT_HOSTNAME="${2}"
       shift 2
@@ -238,7 +244,7 @@ while [[ $# -gt 0 ]]; do
     --remove-qm-rootfs)
       REMOVE_QM_ROOTFS="Y"
       shift 2
-      ;;
+      ;; 
     --help)
       usage
       exit 1
